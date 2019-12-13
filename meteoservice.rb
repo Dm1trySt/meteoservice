@@ -51,7 +51,7 @@ answer = false
 
   puts "Погоду для какого города Вы хотите узнать?"
 
-#Вывод списка городов
+#Вывод списка городов с нумерацией
 city_names.each_with_index do |title,index|
     puts"#{index+1}: #{title}"
 end
@@ -67,6 +67,8 @@ while unless city_index.between?(1, city_names.size)
   city_index = gets.to_i
   end
 end
+
+# id города (по которому мы поулчим ссылку на конкретный город)
 city_id = CITYS[city_names[city_index - 1]]
 
 # Адрес запроса
@@ -87,7 +89,8 @@ doc = REXML::Document.new(response.body)
 city_name =URI.unescape(doc.root.elements['REPORT/TOWN'].attributes['sname'])
 
 # Данные о прогнозе погоды
-# Элементы из TOWN преобразовываем в массив  (.to_a[0] - берем самый первый элемент этого массива
+# Элементы из TOWN преобразовываем в массив
+# .to_a - берем все элементы этого массива
 # это будет самый свежий прогноз)
 forecast = doc.root.elements['REPORT/TOWN'].elements.to_a
 
@@ -95,6 +98,7 @@ forecast = doc.root.elements['REPORT/TOWN'].elements.to_a
 puts city_name
 puts
 
+# Вывод всех данных о погоде
 forecast.each do |node|
   puts MeteoserviceForecast.from_xml(node)
   puts

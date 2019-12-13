@@ -21,8 +21,7 @@ class MeteoserviceForecast
     @max_wind = params[:max_wind]
   end
 
-  # Метод класса from_xml_node возвращает экземпляр класса, прочитанные из
-  # элемента XML-структуры с прогнозом
+  # Возвращает данные прочитанные из XML с прогнозом
   def self.from_xml(node)
     # Дата
     day = node.attributes['day']
